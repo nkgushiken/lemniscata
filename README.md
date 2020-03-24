@@ -1,2 +1,2 @@
 # lemniscata
-Repositório para Projeto Integrador DevOps
+Repositório para Projeto Integrador DevOps da Academia Neon
