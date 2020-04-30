@@ -1,5 +1,5 @@
 - name: Instalar Jenkins em VM
-  hosts: jenkins_ec2
+  hosts: jenkins
   become: true
   gather_facts: yes
 

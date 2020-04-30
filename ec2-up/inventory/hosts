@@ -16,4 +16,12 @@ ansible_connection=ssh
 ansible_ssh_private_key_file=./devops-key.pem
 ansible_python_interpreter=/usr/bin/python3
 
+[jenkins:vars]
+ansible_user=ubuntu
+ansible_sudo_pass=ubuntu
+ansible_connection=ssh
+ansible_ssh_private_key_file=./devops-key.pem 
+ansible_python_interpreter=/usr/bin/python3
 
+[jenkins]
+3.216.9.0
