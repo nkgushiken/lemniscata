@@ -1,0 +1,74 @@
+- name: "Ansible para configurar VM"
+  hosts: local
+  gather_facts: False
+  vars_files:
+    - vars/aws_credentials.yml
+
+  vars:
+    projeto: devops
+    AWS_access_key: "{{ AWSAccessKeyId }}"
+    AWS_secret_key: "{{ AWSSecretKey }}"
+    instance_type: t2.micro
+    security_group: "{{ projeto }}-ws-sg"
+    image_ami: ami-07ebfd5b3428b6f4d
+    KeyPairDev: "{{ projeto }}-key"
+    region: us-east-1
+    vpc_cidr_block: 10.0.0.0/16
+    cidr_block: 10.0.1.16/28
+    vpc_name: "{{ projeto }}-vpc"
+    name_service: "{{ projeto }}"
+    route_tag: "{{ projeto }}-route"
+    sub_tag: "{{ projeto }}-subnet"
+    nome_bucket: dh-lemniscata-devops
+    name_iam_user_s3: iam_admin
+
+
+
+
+  tasks:
+    - name: Create iam user "{{ name_iam_user_s3 }}"
+      iam_user:
+        aws_access_key: "{{ AWS_access_key }}"
+        aws_secret_key: "{{ AWS_secret_key }}"          
+        name: "{{ name_iam_user_s3 }}"
+        managed_policy:
+          - arn:aws:iam::aws:policy/AmazonS3FullAccess
+        state: present
+      register: iuser
+
+    - name: Create a buckets
+      aws_s3:
+        bucket: "{{ nome_bucket }}-{{ item }}"
+        mode: create
+        region: us-east-1
+      loop:
+        - homolog
+        - prod
+
+    - name: Create S3
+      s3_bucket:
+        aws_access_key: "{{ AWS_access_key }}"
+        aws_secret_key: "{{ AWS_secret_key }}"          
+        name: '{{ nome_bucket }}-{{ item }}'
+        region: "{{ region }}"
+        state: present
+        policy:
+          Version: '2012-10-17'
+          Statement: 
+            - Effect: Allow
+              Principal: 
+                'AWS' : "{{ iuser.iam_user.user.arn }}"
+              Action: [
+                  's3:ListBucket',
+                  's3:DeleteObject',
+                  's3:GetObject',
+                  's3:PutObject',
+                  's3:PutObjectAcl'
+              ]
+              Resource: [
+                'arn:aws:s3:::{{ nome_bucket }}-{{ item }}/*',
+                'arn:aws:s3:::{{ nome_bucket }}-{{ item }}'
+              ]
+      loop:
+        - homolog
+        - prod
