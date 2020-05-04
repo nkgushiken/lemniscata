@@ -20,7 +20,7 @@
     route_tag: "{{ projeto }}-route"
     sub_tag: "{{ projeto }}-subnet"
     nome_bucket: dh-lemniscata-devops
-    name_iam_user_s3: iam_lemniscata
+    name_iam_user_s3: dh-lemniscata-devops
 
 
 
