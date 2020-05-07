@@ -71,7 +71,7 @@ pipeline {
                     steps {
                         echo 'Push latest para AWS ECR'
                         script {
-                            docker.withRegistry('https://682647774837.dkr.ecr.us-east-1.amazonaws.com', 'ecr:us-east-1:dh-lemniscata-devops-homolog') {
+                            docker.withRegistry('https://682647774837.dkr.ecr.us-east-1.amazonaws.com', 'ecr:us-east-1:ubuntukeyaws') {
                                 docker.image('digitalhouse-devops').push()
                             }
                         }
@@ -91,7 +91,7 @@ pipeline {
                 script {
                     if(env.GIT_BRANCH=='origin/dev'){
  
-                        docker.withRegistry('https://682647774837.dkr.ecr.us-east-1.amazonaws.com', 'ecr:us-east-1:dh-lemniscata-devops-homolog') {
+                        docker.withRegistry('https://682647774837.dkr.ecr.us-east-1.amazonaws.com', 'ecr:us-east-1:ubuntukeyaws') {
                             docker.image('digitalhouse-devops').pull()
                         }                        
                         echo 'Deploy para Homologação'
@@ -141,7 +141,7 @@ pipeline {
                         }
 
 
-                        docker.withRegistry('https://682647774837.dkr.ecr.us-east-1.amazonaws.com', 'ecr:us-east-1:dh-lemniscata-devops-prod') {
+                        docker.withRegistry('https://682647774837.dkr.ecr.us-east-1.amazonaws.com', 'ecr:us-east-1:ubuntukeyaws') {
                             docker.image('digitalhouse-devops').pull()
                         }
 
