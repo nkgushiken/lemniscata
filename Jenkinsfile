@@ -55,6 +55,7 @@ pipeline {
                 stage('Test image') {
                     steps {
                         script {
+                            sh 'docker-compose down'
 
                             docker.image("digitalhouse-devops:latest").withRun('-p 8030:3000') { c ->
                                 sh 'docker ps'
