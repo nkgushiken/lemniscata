@@ -55,9 +55,9 @@ pipeline {
                 stage('Test image') {
                     steps {
                         script {
-                            
+                            sh 'docker system prune'
+
                             docker.image("digitalhouse-devops:latest").withRun('-p 8030:3000') { c ->
-                                sh 'docker-compose down'
                                 sh 'docker ps'
                                 sh 'sleep 10'
                                 sh 'curl http://127.0.0.1:8030/api/v1/healthcheck'
