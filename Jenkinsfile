@@ -1,14 +1,14 @@
 pipeline {
 
     agent none
-
+    
     environment {
 
-        NODE_ENV="development"
+        NODE_ENV="homolog"
         AWS_ACCESS_KEY=""
         AWS_SECRET_ACCESS_KEY=""
         AWS_SDK_LOAD_CONFIG="0"
-        BUCKET_NAME="app-digital"
+        BUCKET_NAME="dh-lemniscata-devops-homolog"
         REGION="us-east-1" 
         PERMISSION=""
         ACCEPTED_FILE_FORMATS_ARRAY=""
@@ -71,7 +71,7 @@ pipeline {
                     steps {
                         echo 'Push latest para AWS ECR'
                         script {
-                            docker.withRegistry('https://933273154934.dkr.ecr.us-east-1.amazonaws.com', 'ecr:us-east-1:awsdvops') {
+                            docker.withRegistry('https://682647774837.dkr.ecr.us-east-1.amazonaws.com', 'ecr:us-east-1:awsdvops') {
                                 docker.image('digitalhouse-devops').push()
                             }
                         }
@@ -80,10 +80,10 @@ pipeline {
             }
         }
 
-        stage('Deploy to DEV') {
+        stage('Deploy to Homologação') {
             agent {  
                 node {
-                    label 'dev'
+                    label 'homolog'
                 }
             }
 
@@ -91,15 +91,19 @@ pipeline {
                 script {
                     if(env.GIT_BRANCH=='origin/dev'){
  
-                        docker.withRegistry('https://933273154934.dkr.ecr.us-east-1.amazonaws.com', 'ecr:us-east-1:awsdvops') {
+                        docker.withRegistry('https://682647774837.dkr.ecr.us-east-1.amazonaws.com', 'ecr:us-east-1:dh-lemniscata-devops-homolog') {
                             docker.image('digitalhouse-devops').pull()
-                        }
-
-                        echo 'Deploy para Desenvolvimento'
+                        }                        
+                        echo 'Deploy para Homologação'
                         sh "hostname"
-                        sh "docker stop app1"
-                        sh "docker rm app1"
-                        sh "docker run -d --name app1 -p 8030:3000 933273154934.dkr.ecr.us-east-1.amazonaws.com/digitalhouse-devops:latest"
+                        catchError {
+                            sh "docker stop app-lemniscata"
+                            sh "docker rm app-lemniscata"
+                        }
+                        withCredentials([[$class:'AmazonWebServicesCredentialsBinding' 
+                            , credentialsId: 'dh-lemniscata-devops-homolog']]) {
+                            sh "docker run -d -p 3000:3000 -e NODE_ENV=homolog -e AWS_ACCESS_KEY=$AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY -e BUCKET_NAME=dh-lemniscata-devops-homolog --name app_homolog_lemniscata 682647774837.dkr.ecr.us-east-1.amazonaws.com/digitalhouse-devops:latest"
+                        }
                         sh "docker ps"
                         sh 'sleep 10'
                         sh 'curl http://127.0.0.1:8030/api/v1/healthcheck'
@@ -110,7 +114,10 @@ pipeline {
 
         }
 
-        stage('Deploy to Producao') {
+
+        
+
+        stage('Deploy to Produção') {
             agent {  
                 node {
                     label 'prod'
@@ -124,25 +131,30 @@ pipeline {
                         environment {
 
                             NODE_ENV="production"
-                            AWS_ACCESS_KEY="123456"
-                            AWS_SECRET_ACCESS_KEY="asdfghjkkll"
+                            AWS_ACCESS_KEY=""
+                            AWS_SECRET_ACCESS_KEY=""
                             AWS_SDK_LOAD_CONFIG="0"
-                            BUCKET_NAME="app-digital"
+                            BUCKET_NAME="dh-lemniscata-devops-prod"
                             REGION="us-east-1" 
                             PERMISSION=""
                             ACCEPTED_FILE_FORMATS_ARRAY=""
                         }
 
 
-                        docker.withRegistry('https://933273154934.dkr.ecr.us-east-1.amazonaws.com', 'ecr:us-east-1:awsdvops') {
+                        docker.withRegistry('https://682647774837.dkr.ecr.us-east-1.amazonaws.com', 'ecr:us-east-1:dh-lemniscata-devops-prod') {
                             docker.image('digitalhouse-devops').pull()
                         }
 
-                        echo 'Deploy para Desenvolvimento'
+                        echo 'Deploy para Produção'
                         sh "hostname"
-                        sh "docker stop app1"
-                        sh "docker rm app1"
-                        sh "docker run -d --name app1 -p 8030:3000 933273154934.dkr.ecr.us-east-1.amazonaws.com/digitalhouse-devops:latest"
+                        catchError {
+                            sh "docker stop app-lemniscata"
+                            sh "docker rm app-lemniscata"
+                        }
+                        withCredentials([[$class:'AmazonWebServicesCredentialsBinding' 
+                            , credentialsId: 'dh-lemniscata-devops-prod']]) {
+                            sh "docker run -d -p 3000:3000 -e NODE_ENV=prod -e AWS_ACCESS_KEY=$AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY -e BUCKET_NAME=dh-lemniscata-devops-prod --name app_prod_lemniscata 682647774837.dkr.ecr.us-east-1.amazonaws.com/digitalhouse-devops:latest"
+                        }                        
                         sh "docker ps"
                         sh 'sleep 10'
                         sh 'curl http://127.0.0.1:8030/api/v1/healthcheck'
