@@ -55,8 +55,6 @@ pipeline {
                 stage('Test image') {
                     steps {
                         script {
-                            sh 'docker stop digitalhouse-devops'
-                            sh 'docker rm digitalhouse-devops'
 
                             docker.image("digitalhouse-devops:latest").withRun('-p 8030:3000') { c ->
                                 sh 'docker ps'
