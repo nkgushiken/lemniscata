@@ -19,8 +19,8 @@
     name_service: "{{ projeto }}"
     route_tag: "{{ projeto }}-route"
     sub_tag: "{{ projeto }}-subnet"
-    nome_bucket: dh-lemniscata-devops
-    name_iam_user_s3: dh-lemniscata-devops
+    name_grupo: dh-lemniscata-devops
+    name_iam_user_s3: "{{ name_grupo }}"
 
 
 
@@ -38,7 +38,7 @@
 
     - name: Create a buckets
       aws_s3:
-        bucket: "{{ nome_bucket }}-{{ item }}"
+        bucket: "{{ name_grupo }}-{{ item }}"
         mode: create
         region: us-east-1
       loop:
@@ -49,7 +49,7 @@
       s3_bucket:
         aws_access_key: "{{ AWS_access_key }}"
         aws_secret_key: "{{ AWS_secret_key }}"          
-        name: '{{ nome_bucket }}-{{ item }}'
+        name: '{{ name_grupo }}-{{ item }}'
         region: "{{ region }}"
         state: present
         policy:
@@ -66,8 +66,8 @@
                   's3:PutObjectAcl'
               ]
               Resource: [
-                'arn:aws:s3:::{{ nome_bucket }}-{{ item }}/*',
-                'arn:aws:s3:::{{ nome_bucket }}-{{ item }}'
+                'arn:aws:s3:::{{ name_grupo }}-{{ item }}/*',
+                'arn:aws:s3:::{{ name_grupo }}-{{ item }}'
               ]
       loop:
         - homolog
