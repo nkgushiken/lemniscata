@@ -50,6 +50,8 @@ Repositório para Projeto Integrador DevOps da Academia Neon
 * **Produção**
 ![Ambiente produção](https://github.com/nkgushiken/lemniscata/blob/master/output/env_prod_print.png)
 ## Buckets
-* ![Bucket homologação](https://github.com/nkgushiken/lemniscata/blob/master/output/bucket_homolog_print.png)
-* ![Bucket produção](https://github.com/nkgushiken/lemniscata/blob/master/output/bucket_prod_print.png)
+* **Homologação**
+![Bucket homologação](https://github.com/nkgushiken/lemniscata/blob/master/output/bucket_homolog_print.png)
+* **Produção**
+![Bucket produção](https://github.com/nkgushiken/lemniscata/blob/master/output/bucket_prod_print.png)
 
