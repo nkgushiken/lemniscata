@@ -109,7 +109,7 @@ pipeline {
                         
                         sh "docker ps"
                         sh 'sleep 10'
-                        sh 'curl http://ec2-3-228-9-63.compute-1.amazonaws.com:8030'
+                        sh 'curl http://ec2-3-228-9-63.compute-1.amazonaws.com:8030/api/v1/healthcheck'
 
                     }
                 }
@@ -156,7 +156,7 @@ pipeline {
                         }
                         sh "docker ps"
                         sh 'sleep 10'
-                        sh 'curl http://ec2-3-208-92-64.compute-1.amazonaws.com:8030'
+                        sh 'curl http://ec2-3-208-92-64.compute-1.amazonaws.com:8030/api/v1/healthcheck'
 
                     }
                 }
