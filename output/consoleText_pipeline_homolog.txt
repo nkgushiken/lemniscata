@@ -1,0 +1,353 @@
+Started by user admin
+Obtained Jenkinsfile from git https://github.com/nkgushiken/lemniscata.git
+Running in Durability level: MAX_SURVIVABILITY
+[Pipeline] Start of Pipeline
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Build, Test and Push Docker Image)
+[Pipeline] node
+Running on Jenkins in /var/lib/jenkins/workspace/pipeline-homolog
+[Pipeline] {
+[Pipeline] checkout
+No credentials specified
+ > git rev-parse --is-inside-work-tree # timeout=10
+Fetching changes from the remote Git repository
+ > git config remote.origin.url https://github.com/nkgushiken/lemniscata.git # timeout=10
+Fetching upstream changes from https://github.com/nkgushiken/lemniscata.git
+ > git --version # timeout=10
+ > git fetch --tags --progress -- https://github.com/nkgushiken/lemniscata.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git rev-parse refs/remotes/origin/homolog^{commit} # timeout=10
+ > git rev-parse refs/remotes/origin/origin/homolog^{commit} # timeout=10
+Checking out Revision f2b1d41e88408d5f89ccf7435531d7e4c9dada17 (refs/remotes/origin/homolog)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f f2b1d41e88408d5f89ccf7435531d7e4c9dada17 # timeout=10
+Commit message: "[update] Jenkinsfile"
+ > git rev-list --no-walk e99f6e29efcb44d6f71398f282ab747f39def8e6 # timeout=10
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Clone repository)
+[Pipeline] script
+[Pipeline] {
+[Pipeline] sh
++ sort
++ printenv
+AWS_SDK_LOAD_CONFIG=0
+BUCKET_NAME=app-digital
+BUILD_DISPLAY_NAME=#11
+BUILD_ID=11
+BUILD_NUMBER=11
+BUILD_TAG=jenkins-pipeline-homolog-11
+BUILD_URL=http://ec2-3-216-9-0.compute-1.amazonaws.com:8080/job/pipeline-homolog/11/
+EXECUTOR_NUMBER=1
+GIT_BRANCH=origin/homolog
+GIT_COMMIT=f2b1d41e88408d5f89ccf7435531d7e4c9dada17
+GIT_PREVIOUS_COMMIT=e99f6e29efcb44d6f71398f282ab747f39def8e6
+GIT_PREVIOUS_SUCCESSFUL_COMMIT=e99f6e29efcb44d6f71398f282ab747f39def8e6
+GIT_URL=https://github.com/nkgushiken/lemniscata.git
+HOME=/var/lib/jenkins
+HUDSON_COOKIE=e776da6a-8759-4001-9255-3a135a314a71
+HUDSON_HOME=/var/lib/jenkins
+HUDSON_SERVER_COOKIE=701de961cfa15121
+HUDSON_URL=http://ec2-3-216-9-0.compute-1.amazonaws.com:8080/
+JENKINS_HOME=/var/lib/jenkins
+JENKINS_NODE_COOKIE=e993d0fc-2a49-4bc0-8bab-977be112cf41
+JENKINS_SERVER_COOKIE=durable-693782e4b1c06f6d9ad38ba3191963cc
+JENKINS_URL=http://ec2-3-216-9-0.compute-1.amazonaws.com:8080/
+JOB_BASE_NAME=pipeline-homolog
+JOB_DISPLAY_URL=http://ec2-3-216-9-0.compute-1.amazonaws.com:8080/job/pipeline-homolog/display/redirect
+JOB_NAME=pipeline-homolog
+JOB_URL=http://ec2-3-216-9-0.compute-1.amazonaws.com:8080/job/pipeline-homolog/
+LANG=C.UTF-8
+LOGNAME=jenkins
+MAIL=/var/mail/jenkins
+NODE_ENV=development
+NODE_LABELS=master
+NODE_NAME=master
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+PWD=/var/lib/jenkins/workspace/pipeline-homolog
+REGION=us-east-1
+RUN_CHANGES_DISPLAY_URL=http://ec2-3-216-9-0.compute-1.amazonaws.com:8080/job/pipeline-homolog/11/display/redirect?page=changes
+RUN_DISPLAY_URL=http://ec2-3-216-9-0.compute-1.amazonaws.com:8080/job/pipeline-homolog/11/display/redirect
+SHELL=/bin/bash
+SHLVL=1
+STAGE_NAME=Clone repository
+USER=jenkins
+VERSION=1.0.0
+WORKSPACE=/var/lib/jenkins/workspace/pipeline-homolog
+XDG_DATA_DIRS=/usr/local/share:/usr/share:/var/lib/snapd/desktop
+XDG_RUNTIME_DIR=/run/user/111
+XDG_SESSION_ID=c1
+_=/usr/bin/daemon
+[Pipeline] echo
+My branch is: origin/homolog
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Build image)
+[Pipeline] script
+[Pipeline] {
+[Pipeline] echo
+Environment will be : development
+[Pipeline] isUnix
+[Pipeline] sh
++ docker build -t digitalhouse-devops:latest .
+Sending build context to Docker daemon  159.2kB
+Step 1/7 : FROM node:10-slim
+ ---> 0c607c3a0390
+Step 2/7 : LABEL maintainer="Bruno Souza <bruno@bgsouza.com>"
+ ---> Using cache
+ ---> 93004055eea1
+Step 3/7 : WORKDIR /usr/app
+ ---> Using cache
+ ---> 8582614ae0be
+Step 4/7 : COPY . .
+ ---> 96e1d33c450c
+Step 5/7 : RUN npm install
+ ---> Running in ed167f6068ad
+[91mnpm WARN deprecated buffer@4.9.1: This version of 'buffer' is out-of-date. You must update to v4.9.2 or newer
+[0m
+> ejs@3.1.2 postinstall /usr/app/node_modules/ejs
+> node --harmony ./postinstall.js
+
+Thank you for installing [35mEJS[0m: built with the [32mJake[0m JavaScript build tool ([32mhttps://jakejs.com/[0m)
+
+[91mnpm[0m[91m [0m[91mnotice[0m[91m created a lockfile as package-lock.json. You should commit this file.
+[0madded 101 packages from 114 contributors and audited 202 packages in 5.674s
+found 0 vulnerabilities
+
+Removing intermediate container ed167f6068ad
+ ---> ae3515744f49
+Step 6/7 : EXPOSE 3000
+ ---> Running in f3da219e8187
+Removing intermediate container f3da219e8187
+ ---> 7d2b81c90cd2
+Step 7/7 : ENTRYPOINT ["node", "app.js"]
+ ---> Running in 17dd3453bb2d
+Removing intermediate container 17dd3453bb2d
+ ---> 0a1878d2e31c
+Successfully built 0a1878d2e31c
+Successfully tagged digitalhouse-devops:latest
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Test image)
+[Pipeline] script
+[Pipeline] {
+[Pipeline] isUnix
+[Pipeline] sh
++ docker run -d -p 8030:3000 digitalhouse-devops:latest
+[Pipeline] sh
++ docker ps
+CONTAINER ID        IMAGE                        COMMAND             CREATED             STATUS              PORTS                    NAMES
+2c07828a3772        digitalhouse-devops:latest   "node app.js"       4 seconds ago       Up 1 second         0.0.0.0:8030->3000/tcp   youthful_napier
+[Pipeline] sh
++ sleep 10
+[Pipeline] sh
++ curl http://127.0.0.1:8030/api/v1/healthcheck
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100    65  100    65    0     0   1969      0 --:--:-- --:--:-- --:--:--  1969
+{"status":{"app":true,"versao":"1.0.0","ambiente":"development"}}
+[Pipeline] isUnix
+[Pipeline] sh
++ docker stop 2c07828a3772bddc62f7843c048ae70266b660604f08fa1069f1a0b74694566a
+2c07828a3772bddc62f7843c048ae70266b660604f08fa1069f1a0b74694566a
++ docker rm -f 2c07828a3772bddc62f7843c048ae70266b660604f08fa1069f1a0b74694566a
+2c07828a3772bddc62f7843c048ae70266b660604f08fa1069f1a0b74694566a
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Docker push)
+[Pipeline] echo
+Push latest para AWS ECR
+[Pipeline] script
+[Pipeline] {
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] withDockerRegistry
+$ docker login -u AWS -p ******** https://682647774837.dkr.ecr.us-east-1.amazonaws.com
+WARNING! Using --password via the CLI is insecure. Use --password-stdin.
+WARNING! Your password will be stored unencrypted in /var/lib/jenkins/workspace/pipeline-homolog@tmp/0b58f24b-abb4-4b69-9d92-fa4012ac0297/config.json.
+Configure a credential helper to remove this warning. See
+https://docs.docker.com/engine/reference/commandline/login/#credentials-store
+
+Login Succeeded
+[Pipeline] {
+[Pipeline] isUnix
+[Pipeline] sh
++ docker tag digitalhouse-devops 682647774837.dkr.ecr.us-east-1.amazonaws.com/digitalhouse-devops:latest
+[Pipeline] isUnix
+[Pipeline] sh
++ docker push 682647774837.dkr.ecr.us-east-1.amazonaws.com/digitalhouse-devops:latest
+The push refers to repository [682647774837.dkr.ecr.us-east-1.amazonaws.com/digitalhouse-devops]
+b38111fd050d: Preparing
+cee0399792bb: Preparing
+2b3fa95ae5ab: Preparing
+9d9654c2cb35: Preparing
+f4c15ac6d23f: Preparing
+0a78755eebb0: Preparing
+a8bfdcd294e1: Preparing
+cde96efde55e: Preparing
+0a78755eebb0: Waiting
+a8bfdcd294e1: Waiting
+cde96efde55e: Waiting
+f4c15ac6d23f: Layer already exists
+2b3fa95ae5ab: Layer already exists
+9d9654c2cb35: Layer already exists
+0a78755eebb0: Layer already exists
+a8bfdcd294e1: Layer already exists
+cde96efde55e: Layer already exists
+cee0399792bb: Pushed
+b38111fd050d: Pushed
+latest: digest: sha256:e5dbc27bf8f184d71023c5935b68971168cccc4c332dc52a234f10471391f1d0 size: 1995
+[Pipeline] }
+[Pipeline] // withDockerRegistry
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Deploy to Homolog)
+[Pipeline] node
+Running on homolog in /home/ubuntu/workspace/pipeline-homolog
+[Pipeline] {
+[Pipeline] checkout
+No credentials specified
+Fetching changes from the remote Git repository
+Checking out Revision f2b1d41e88408d5f89ccf7435531d7e4c9dada17 (refs/remotes/origin/homolog)
+Commit message: "[update] Jenkinsfile"
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] script
+[Pipeline] {
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] withDockerRegistry
+$ docker login -u AWS -p ******** https://682647774837.dkr.ecr.us-east-1.amazonaws.com
+WARNING! Using --password via the CLI is insecure. Use --password-stdin.
+WARNING! Your password will be stored unencrypted in /home/ubuntu/workspace/pipeline-homolog@tmp/750ee0e2-0f47-46ce-a7d5-03c0d2d2d2ac/config.json.
+Configure a credential helper to remove this warning. See
+https://docs.docker.com/engine/reference/commandline/login/#credentials-store
+
+Login Succeeded
+[Pipeline] {
+[Pipeline] isUnix
+[Pipeline] sh
++ docker pull 682647774837.dkr.ecr.us-east-1.amazonaws.com/digitalhouse-devops
+Using default tag: latest
+latest: Pulling from digitalhouse-devops
+b248fa9f6d2a: Already exists
+dffc92453adc: Already exists
+e0e12a974804: Already exists
+ef52e5d24835: Already exists
+4469156a14f8: Already exists
+2e68972f141d: Already exists
+7db00ed25ccb: Pulling fs layer
+65d0c6095c8b: Pulling fs layer
+7db00ed25ccb: Verifying Checksum
+7db00ed25ccb: Download complete
+ > git rev-parse --is-inside-work-tree # timeout=10
+ > git config remote.origin.url https://github.com/nkgushiken/lemniscata.git # timeout=10
+Fetching upstream changes from https://github.com/nkgushiken/lemniscata.git
+ > git --version # timeout=10
+ > git fetch --tags --progress -- https://github.com/nkgushiken/lemniscata.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git rev-parse refs/remotes/origin/homolog^{commit} # timeout=10
+ > git rev-parse refs/remotes/origin/origin/homolog^{commit} # timeout=10
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f f2b1d41e88408d5f89ccf7435531d7e4c9dada17 # timeout=10
+7db00ed25ccb: Pull complete
+65d0c6095c8b: Verifying Checksum
+65d0c6095c8b: Download complete
+65d0c6095c8b: Pull complete
+Digest: sha256:e5dbc27bf8f184d71023c5935b68971168cccc4c332dc52a234f10471391f1d0
+Status: Downloaded newer image for 682647774837.dkr.ecr.us-east-1.amazonaws.com/digitalhouse-devops:latest
+682647774837.dkr.ecr.us-east-1.amazonaws.com/digitalhouse-devops:latest
+[Pipeline] }
+[Pipeline] // withDockerRegistry
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] echo
+Deploy para Desenvolvimento
+[Pipeline] sh
++ hostname
+ip-10-0-1-27
+[Pipeline] catchError
+[Pipeline] {
+[Pipeline] sh
++ docker stop app1
+app1
+[Pipeline] sh
++ docker rm app1
+app1
+[Pipeline] }
+[Pipeline] // catchError
+[Pipeline] withCredentials
+Masking supported pattern matches of $AWS_ACCESS_KEY_ID or $AWS_SECRET_ACCESS_KEY
+[Pipeline] {
+[Pipeline] sh
++ docker run -d --name app1 -p 8030:3000 -e NODE_ENV=homolog -e AWS_ACCESS_KEY=**** -e AWS_SECRET_ACCESS_KEY=**** -e BUCKET_NAME=dh-lemniscata-devops-homolog 682647774837.dkr.ecr.us-east-1.amazonaws.com/digitalhouse-devops:latest
+573f738dc48feb59293ce755f773101e38fabac8d5a68448641eb97444298498
+[Pipeline] }
+[Pipeline] // withCredentials
+[Pipeline] sh
++ docker ps
+CONTAINER ID        IMAGE                                                                     COMMAND             CREATED             STATUS                  PORTS                    NAMES
+573f738dc48f        682647774837.dkr.ecr.us-east-1.amazonaws.com/digitalhouse-devops:latest   "node app.js"       2 seconds ago       Up Less than a second   0.0.0.0:8030->3000/tcp   app1
+[Pipeline] sh
++ sleep 10
+[Pipeline] sh
++ curl http://ec2-3-228-9-63.compute-1.amazonaws.com:8030/api/v1/healthcheck
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100    61  100    61    0     0   2541      0 --:--:-- --:--:-- --:--:--  2652
+{"status":{"app":true,"versao":"1.0.0","ambiente":"homolog"}}
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (Deploy to Producao)
+[Pipeline] node
+Running on prod in /home/ubuntu/workspace/pipeline-homolog
+[Pipeline] {
+[Pipeline] checkout
+No credentials specified
+Fetching changes from the remote Git repository
+Checking out Revision f2b1d41e88408d5f89ccf7435531d7e4c9dada17 (refs/remotes/origin/homolog)
+Commit message: "[update] Jenkinsfile"
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] script
+[Pipeline] {
+[Pipeline] }
+[Pipeline] // script
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] End of Pipeline
+Finished: SUCCESS
