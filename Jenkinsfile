@@ -97,6 +97,10 @@ pipeline {
 
                         echo 'Deploy para Desenvolvimento'
                         sh "hostname"
+                        cathError{
+                            sh "docker stop app1"
+                            sh "docker rm app1"    
+                        }
                         sh "docker stop app1"
                         sh "docker rm app1"
                         //sh "docker run -d --name app1 -p 8030:3000 933273154934.dkr.ecr.us-east-1.amazonaws.com/digitalhouse-devops:latest"
