@@ -33,7 +33,7 @@ Repositório para Projeto Integrador DevOps da Academia Neon
     ## App homologação
     * Deploy do Jenkinsfile do [repositório lemniscata: branch homolog](https://github.com/nkgushiken/lemniscata/tree/homolog)
     ## App produção
-    * Deploy do Jenkinsfile do [Repositório digitalhouse-devops-app: branch master](https://github.com/nkgushiken/digitalhouse-devops-app)
+    * Deploy do Jenkinsfile do [repositório digitalhouse-devops-app: branch master](https://github.com/nkgushiken/digitalhouse-devops-app)
 
 # Evidências
 ## Pipeline
