@@ -37,15 +37,15 @@ Repositório para Projeto Integrador DevOps da Academia Neon
 
 # Evidências
 ## Pipeline
-* [Pipeline homologação]()
-* [Pipeline produção]()
+* [Pipeline homologação](https://github.com/nkgushiken/lemniscata/blob/master/output/consoleText_pipeline_homolog.txt)
+* [Pipeline produção](https://github.com/nkgushiken/lemniscata/blob/master/output/consoleText_pipeline_prod.txt)
 ## Healthcheck
-* [Healthcheck homologação]()
-* [Healthcheck produção]()
+* [Healthcheck homologação](https://github.com/nkgushiken/lemniscata/blob/master/output/healthcheck_homolog_print.png)
+* [Healthcheck produção](https://github.com/nkgushiken/lemniscata/blob/master/output/healthcheck_prod_print.png)
 ## Ambientes
-* [Ambiente homologação]()
-* [Ambiente produção]()
+* [Ambiente homologação](https://github.com/nkgushiken/lemniscata/blob/master/output/env_homolog_print.png)
+* [Ambiente produção](https://github.com/nkgushiken/lemniscata/blob/master/output/env_prod_print.png)
 ## Buckets
-* [Bucket homologação]()
-* [Bucket produção]()
+* [Bucket homologação](https://github.com/nkgushiken/lemniscata/blob/master/output/bucket_homolog_print.png)
+* [Bucket produção](https://github.com/nkgushiken/lemniscata/blob/master/output/bucket_prod_print.png)
 
