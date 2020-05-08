@@ -97,7 +97,7 @@ pipeline {
 
                         echo 'Deploy para Desenvolvimento'
                         sh "hostname"
-                        cathError{
+                        catchError{
                             sh "docker stop app1"
                             sh "docker rm app1"    
                         }
@@ -106,7 +106,7 @@ pipeline {
                         //sh "docker run -d --name app1 -p 8030:3000 933273154934.dkr.ecr.us-east-1.amazonaws.com/digitalhouse-devops:latest"
                         withCredentials([[$class:'AmazonWebServicesCredentialsBinding' 
                             , credentialsId: 'dh-lemniscata-devops-homolog']]) {
-                        sh "docker run -d --name app1 -p 3.228.9.63:8030:3000 -e NODE_ENV=homolog -e AWS_ACCESS_KEY=$AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY -e BUCKET_NAME=dh-lemniscata-devops-homolog 682647774837.dkr.ecr.us-east-1.amazonaws.com/digitalhouse-devops:latest"
+                        sh "docker run -d --name app1 -p 8030:3000 -e NODE_ENV=homolog -e AWS_ACCESS_KEY=$AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY -e BUCKET_NAME=dh-lemniscata-devops-homolog 682647774837.dkr.ecr.us-east-1.amazonaws.com/digitalhouse-devops:latest"
                         }
                         
                         sh "docker ps"
