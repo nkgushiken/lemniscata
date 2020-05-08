@@ -89,7 +89,7 @@ pipeline {
 
             steps { 
                 script {
-                    if(env.GIT_BRANCH=='origin/dev'){
+                    if(env.GIT_BRANCH=='origin/homolog'){
  
                         docker.withRegistry('https://682647774837.dkr.ecr.us-east-1.amazonaws.com', 'ecr:us-east-1:ecr-key') {
                             docker.image('digitalhouse-devops').pull()
@@ -107,7 +107,7 @@ pipeline {
                         
                         sh "docker ps"
                         sh 'sleep 10'
-                        sh 'curl http://ec2-3-228-9-63.compute-1.amazonaws.com/api/v1/healthcheck'
+                        sh 'curl http://ec2-3-228-9-63.compute-1.amazonaws.com:8030'
 
                     }
                 }
@@ -124,7 +124,7 @@ pipeline {
 
             steps { 
                 script {
-                    if(env.GIT_BRANCH=='origin/prod'){
+                    if(env.GIT_BRANCH=='master'){
  
                         environment {
 
@@ -136,7 +136,6 @@ pipeline {
                             REGION="us-east-1" 
                             PERMISSION=""
                             ACCEPTED_FILE_FORMATS_ARRAY=""
-                            NODE_NAME="dh-lemniscata-devops-prod"
                         }
 
 
@@ -155,7 +154,7 @@ pipeline {
                         }
                         sh "docker ps"
                         sh 'sleep 10'
-                        sh 'curl http://ec2-3-208-92-64.compute-1.amazonaws.com:8030/api/v1/healthcheck'
+                        sh 'curl http://ec2-3-208-92-64.compute-1.amazonaws.com:8030'
 
                     }
                 }
