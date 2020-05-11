@@ -26,7 +26,7 @@ Repositório para Projeto Integrador DevOps da Academia Neon
     * `ec2-up/playbooks/docker.yml`
         Instala o docker nas três instâncias
     * `ec2-up/playbooks/jenkins.yml`, `ec2-up/playbooks/ansible.yml`
-        Instala Jenkins e Ansible na instância de gerencimanto
+        Instala Jenkins e Ansible na instância de gerenciamento
     * `ec2-up/playbooks/s3_up`
         Constrói os buckets S3 e define as políticas
     
