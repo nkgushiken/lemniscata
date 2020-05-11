@@ -31,9 +31,9 @@ Repositório para Projeto Integrador DevOps da Academia Neon
         Constrói os buckets S3 e define as políticas
     
     ## App homologação
-    * Deploy do Jenkinsfile do [repositório lemniscata: branch homolog](https://github.com/nkgushiken/lemniscata/tree/homolog)
+    * Deploy do [Jenkinsfile](https://github.com/nkgushiken/lemniscata/blob/homolog/Jenkinsfile) do [repositório lemniscata: branch homolog](https://github.com/nkgushiken/lemniscata/tree/homolog)
     ## App produção
-    * Deploy do Jenkinsfile do [repositório digitalhouse-devops-app: branch master](https://github.com/nkgushiken/digitalhouse-devops-app)
+    * Deploy do [Jenkinsfile](https://github.com/nkgushiken/digitalhouse-devops-app/blob/master/Jenkinsfile) do [repositório digitalhouse-devops-app: branch master](https://github.com/nkgushiken/digitalhouse-devops-app)
 
 # Evidências
 ## Pipeline
