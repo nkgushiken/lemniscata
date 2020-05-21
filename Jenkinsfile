@@ -109,8 +109,10 @@ pipeline {
                         
                         sh "docker ps"
                         sh 'sleep 10'
-                        sh 'curl http://ec2-3-228-9-63.compute-1.amazonaws.com:8030/api/v1/healthcheck'
+                        sh 'curl ec2-3-81-72-146.compute-1.amazonaws.com:8030/api/v1/healthcheck'
 
+                    } else {
+                        echo "Current Job is "Produção", skipping step."
                     }
                 }
             }
@@ -156,8 +158,10 @@ pipeline {
                         }
                         sh "docker ps"
                         sh 'sleep 10'
-                        sh 'curl http://ec2-3-208-92-64.compute-1.amazonaws.com:8030/api/v1/healthcheck'
+                        sh 'curl http://ec2-54-174-111-243.compute-1.amazonaws.com:8030/api/v1/healthcheck'
 
+                    } else {
+                        echo "Current Job is "Homolocação", skipping step."
                     }
                 }
             }
