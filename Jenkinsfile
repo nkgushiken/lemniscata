@@ -119,7 +119,7 @@ pipeline {
 
         }
 
-        stage('Deploy to Producao') {
+        stage('Deploy to Producao: Actual job is Homologação, skipping step') {
             agent {  
                 node {
                     label 'prod'
