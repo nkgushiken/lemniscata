@@ -112,7 +112,7 @@ pipeline {
                         sh 'curl ec2-3-81-72-146.compute-1.amazonaws.com:8030/api/v1/healthcheck'
 
                     } else {
-                        echo "Current Job is "prod", skipping step."
+                        echo "Current Job is 'Produção', skipping step."
                     }
                 }
             }
@@ -161,7 +161,7 @@ pipeline {
                         sh 'curl http://ec2-54-174-111-243.compute-1.amazonaws.com:8030/api/v1/healthcheck'
 
                     } else {
-                        echo "Current Job is "homolog", skipping step."
+                        echo "Current Job is 'Homologação', skipping step."
                     }
                 }
             }
