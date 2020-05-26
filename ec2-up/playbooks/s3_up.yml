@@ -24,7 +24,6 @@
         name: "{{ name_grupo }}-group"        
         managed_policy:
           - arn:aws:iam::aws:policy/AmazonS3FullAccess
-          - arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryFullAccess
         state: present
         users:
           - "{{ name_iam_user_s3 }}-{{ item }}"
