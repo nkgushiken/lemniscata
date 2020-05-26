@@ -55,3 +55,8 @@ Repositório para Projeto Integrador DevOps da Academia Neon
 * **Produção**
 ![Bucket produção](https://github.com/nkgushiken/lemniscata/blob/master/output/bucket_prod_print.png)
 
+# Backlog: Jenkins
+Passo-a-passo da configuração do Jenkins: lista de plugins, adicionar credenciais, configurar nós e construir job de pipeline.
+
+Acessar documento **[aqui](https://docs.google.com/document/d/1jAwv6kxZ4KVRI7PEKiBCpf-etJV0gRlequCiJ0uryzo/edit?usp=sharing)**
+
