@@ -3,27 +3,9 @@
   gather_facts: False
   vars_files:
     - vars/aws_credentials.yml
+    - vars/aws_vars.yml
 
-  vars:
-    projeto: devops
-    AWS_access_key: "{{ AWSAccessKeyId }}"
-    AWS_secret_key: "{{ AWSSecretKey }}"
-    instance_type: t2.micro
-    security_group: "{{ projeto }}-ws-sg"
-    image_ami: ami-07ebfd5b3428b6f4d
-    KeyPairDev: "{{ projeto }}-key"
-    region: us-east-1
-    count: 1
-    vpc_cidr_block: 10.0.0.0/16
-    cidr_block: 10.0.1.16/28
-    vpc_name: "{{ projeto }}-vpc"
-    name_service: "{{ projeto }}"
-    route_tag: "{{ projeto }}-route"
-    sub_tag: "{{ projeto }}-subnet"
-
-
-
-  tasks:
+   tasks:
     - name: Amazon EC2 | Create Key Pair
       ec2_key:
         aws_access_key: "{{ AWS_access_key }}"
@@ -87,9 +69,13 @@
               to_port: 443
               cidr_ip: 0.0.0.0/0
             - proto: tcp
+              from_port: 8030
+              to_port: 8030
+              cidr_ip: 0.0.0.0/0
+            - proto: tcp
               from_port: 8080
               to_port: 8080
-              cidr_ip: 0.0.0.0/0
+              cidr_ip: 0.0.0.0/0              
         rules_egress:
             - proto: all
               cidr_ip: 0.0.0.0/0

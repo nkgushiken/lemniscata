@@ -3,44 +3,49 @@
   gather_facts: False
   vars_files:
     - vars/aws_credentials.yml
-
-  vars:
-    projeto: devops
-    AWS_access_key: "{{ AWSAccessKeyId }}"
-    AWS_secret_key: "{{ AWSSecretKey }}"
-    instance_type: t2.micro
-    security_group: "{{ projeto }}-ws-sg"
-    image_ami: ami-07ebfd5b3428b6f4d
-    KeyPairDev: "{{ projeto }}-key"
-    region: us-east-1
-    vpc_cidr_block: 10.0.0.0/16
-    cidr_block: 10.0.1.16/28
-    vpc_name: "{{ projeto }}-vpc"
-    name_service: "{{ projeto }}"
-    route_tag: "{{ projeto }}-route"
-    sub_tag: "{{ projeto }}-subnet"
-    name_grupo: dh-lemniscata-devops
-    name_iam_user_s3: "{{ name_grupo }}"
-
-
-
+    - vars/aws_vars.yml
 
   tasks:
     - name: Create iam user "{{ name_iam_user_s3 }}"
       iam_user:
         aws_access_key: "{{ AWS_access_key }}"
         aws_secret_key: "{{ AWS_secret_key }}"          
-        name: "{{ name_iam_user_s3 }}"
-        managed_policy:
-          - arn:aws:iam::aws:policy/AmazonS3FullAccess
+        name: "{{ name_iam_user_s3 }}-{{ item }}"       
         state: present
       register: iuser
+      loop:
+        - homolog
+        - prod
+    
+    - name: Create iam group "{{ name_iam_user_s3 }}"
+      iam_group:
+        aws_access_key: "{{ AWS_access_key }}"
+        aws_secret_key: "{{ AWS_secret_key }}"          
+        name: "{{ name_grupo }}-group"        
+        managed_policy:
+          - arn:aws:iam::aws:policy/AmazonS3FullAccess
+          - arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryFullAccess
+        state: present
+        users:
+          - "{{ name_iam_user_s3 }}-{{ item }}"
+      loop:
+        - homolog
+        - prod
+      register: addgroup
 
+    - name: Get the current caller identity information
+      aws_caller_info:
+      register: caller_info  
+
+    - name: "set fact: get account ID"
+      set_fact:
+        account_id: "{{ caller_info.account }}"
+    
     - name: Create a buckets
       aws_s3:
         bucket: "{{ name_grupo }}-{{ item }}"
         mode: create
-        region: us-east-1
+        region: "{{ region }}"
       loop:
         - homolog
         - prod
@@ -56,8 +61,8 @@
           Version: '2012-10-17'
           Statement: 
             - Effect: Allow
-              Principal: 
-                'AWS' : "{{ iuser.iam_user.user.arn }}"
+              Principal:
+                  'AWS' : "arn:aws:iam::{{ account_id }}:user/{{ name_grupo }}-{{ item }}"
               Action: [
                   's3:ListBucket',
                   's3:DeleteObject',

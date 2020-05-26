@@ -24,4 +24,4 @@ ansible_ssh_private_key_file=./devops-key.pem
 ansible_python_interpreter=/usr/bin/python3
 
 [jenkins]
-3.216.9.0
+3.90.48.236
